@@ -1,0 +1,47 @@
+[project]
+name = "react-agent-from-scratch"
+version = "0.1.0"
+description = "ReAct agent implemented from scratch on top of LangGraph — mirrors examples/react-agent-from-scratch.ipynb"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "langgraph examples" }]
+
+dependencies = [
+    "langgraph>=0.2",
+    "langchain-core>=0.3",
+    "langchain-openai>=0.2",
+    "python-dotenv>=1.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.5",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/react_agent"]
+
+# PEP 660 editable installs — needed so `pytest` can `import react_agent`
+# without a separate `pip install -e` step.
+[tool.hatch.version]
+path = "src/react_agent/__init__.py"
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers --strict-config"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["E402"]
